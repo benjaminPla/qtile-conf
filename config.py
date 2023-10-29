@@ -66,11 +66,15 @@ screens = [
     Screen(
         bottom=bar.Bar(
             [
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.Systray(),
-                widget.Clock(format=" %I:%M | %d-%m-%Y"),
-                widget.QuickExit(),
+                widget.GroupBox(
+                    hide_unused=True,
+                    highlight_method='text',
+                    this_current_screen_border='#ff0',
+                ),
+                widget.Spacer(),
+                widget.Prompt(prompt=''),
+                widget.Clock(format='%d/%m/%y | %H:%M |'),
+                widget.QuickExit(default_text='X', countdown_format='{}'),
             ],
             25,
         ),
@@ -80,7 +84,7 @@ screens = [
 ]
 
 dgroups_key_binder = None
-dgroups_app_rules = []  # type: list
+dgroups_app_rules = []
 follow_mouse_focus = False
 bring_front_click = False
 floats_kept_above = True
