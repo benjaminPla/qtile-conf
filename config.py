@@ -1,6 +1,6 @@
 # https://docs.qtile.org/en/latest/manual/config/lazy.html
 from libqtile import bar, layout, widget
-from libqtile.config import Click, Drag, Group, Key, Match, Screen
+from libqtile.config import Group, Key, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -26,13 +26,16 @@ keys = [
     Key([mod], "n", lazy.layout.normalize()),
     # lauch terminal
     Key([mod], "Return", lazy.spawn(terminal)),
-    # toggle between different layouts
-    Key([mod], "w", lazy.window.kill()),
-    Key([mod], "f", lazy.window.toggle_fullscreen()),
     # reload config
     Key([mod, "control"], "r", lazy.reload_config()),
     # search
     Key([mod], "space", lazy.spawncmd()),
+    # others
+    Key([mod], "w", lazy.window.kill()),
+    Key([mod], "f", lazy.window.toggle_fullscreen()),
+    # brightness
+    Key([mod], "Down", lazy.spawn("/usr/local/bin/set_brightness.sh 1000")),
+    Key([mod], "Up", lazy.spawn("/usr/local/bin/set_brightness.sh 4000")),
 ]
 
 groups = [Group(i) for i in "123456789"]
@@ -48,10 +51,7 @@ for i in groups:
 
 layouts = [
     layout.Columns(
-        border_normal='#222',
-        border_focus='#555',
-        border_width=1,
-        margin=20
+        border_normal="#222", border_focus="#555", border_width=1, margin=20
     ),
 ]
 
@@ -68,12 +68,12 @@ screens = [
             [
                 widget.GroupBox(
                     hide_unused=True,
-                    highlight_method='text',
-                    this_current_screen_border='#ff0',
+                    highlight_method="text",
+                    this_current_screen_border="#ff0",
                 ),
                 widget.Spacer(),
-                widget.Prompt(prompt=''),
-                widget.Clock(format='%d/%m/%y | %H:%M'),
+                widget.Prompt(prompt=""),
+                widget.Clock(format="%d/%m/%y | %H:%M"),
                 # widget.QuickExit(default_text='X', countdown_format='{}'),
             ],
             25,
