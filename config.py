@@ -1,6 +1,6 @@
 # https://docs.qtile.org/en/latest/manual/config/lazy.html
-from libqtile import bar, layout, widget
 from libqtile.config import Group, Key, Screen
+from libqtile import bar, layout, widget
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -33,31 +33,32 @@ keys = [
     # others
     Key([mod], "w", lazy.window.kill()),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
+    Key([mod], "b", lazy.hide_show_bar("bottom")),
     # brightness
     Key([mod], "Down", lazy.spawn("/usr/local/bin/set_brightness.sh 1000")),
-    Key([mod], "Up", lazy.spawn("/usr/local/bin/set_brightness.sh 4000")),
+    #  Key([mod], "Up", lazy.spawn("/usr/local/bin/set_brightness.sh 6800")),
+    Key([mod], "Up", lazy.spawn("/usr/local/bin/set_brightness.sh 5000")),
 ]
 
 groups = [Group(i) for i in "123456789"]
+
 for i in groups:
     keys.extend(
         [
-            # switch group
             Key([mod], i.name, lazy.group[i.name].toscreen()),
-            # switch group and move
             Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True)),
         ]
     )
 
 layouts = [
     layout.Columns(
-        border_normal="#222", border_focus="#555", border_width=1, margin=20
+        border_normal="#000", border_focus="#fff", border_width=1, margin=20
     ),
 ]
 
 widget_defaults = dict(
-    font="sans",
-    fontsize=12,
+    font="mono",
+    fontsize=16,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -69,16 +70,17 @@ screens = [
                 widget.GroupBox(
                     hide_unused=True,
                     highlight_method="text",
-                    this_current_screen_border="#ff0",
+                    this_current_screen_border="#0f0",
                 ),
                 widget.Spacer(),
                 widget.Prompt(prompt=""),
+                #  widget.Battery(format="{percent:2.0%} |"),
                 widget.Clock(format="%d/%m/%y | %H:%M"),
-                # widget.QuickExit(default_text='X', countdown_format='{}'),
             ],
             25,
         ),
     ),
+    Screen(),
 ]
 
 follow_mouse_focus = False
